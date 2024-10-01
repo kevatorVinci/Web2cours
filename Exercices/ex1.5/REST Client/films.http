@@ -1,0 +1,25 @@
+### Read all film
+GET http://localhost:3000/films
+
+### Read all pizzas with File variable
+
+@baseUrl = http://localhost:3000
+GET {{baseUrl}}/films/2
+### Create a pizza
+
+
+GET {{baseUrl}}/films/?minimum-duration=150
+
+
+
+### create
+POST {{baseUrl}}/films/create
+Content-Type: application/json
+{
+        "title": "testKev",
+        "director": "Christopher Nolan",
+        "duration": 152
+}
+
+
+

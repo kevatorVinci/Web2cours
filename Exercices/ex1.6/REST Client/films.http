@@ -27,3 +27,9 @@ Content-Type: application/json
 
 
 
+### Delete a drink
+DELETE {{baseUrl}}/films/2
+
+
+
+

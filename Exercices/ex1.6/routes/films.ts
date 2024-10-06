@@ -45,8 +45,8 @@ router.get("/", (req, res) => {
 });
 
 router.post("/create", (req, res) => {
-  
-  
+
+
   const body: unknown = req.body;
   if (
     !body ||
@@ -69,16 +69,16 @@ router.post("/create", (req, res) => {
   ) {
     return res.sendStatus(400);
   }
- 
-
-  const newFilm= body as Film;
-  
 
 
-  
+  const newFilm = body as Film;
 
- 
-  
+
+
+
+
+
+
   const existingFilm = films.find(
     (film) =>
       film.title.toLowerCase() === newFilm.title.toLowerCase() &&
@@ -88,23 +88,36 @@ router.post("/create", (req, res) => {
   if (existingFilm) {
     return res.sendStatus(409);
 
-   
+
   }
-   const nextIde =films.reduce((acc, films) => (films.id > acc ? films.id : acc), 0) + 1;
+  const nextIde = films.reduce((acc, films) => (films.id > acc ? films.id : acc), 0) + 1;
 
-newFilm.id = nextIde;
-
-console.log(nextIde);
+  newFilm.id = nextIde;
 
 
-  const addedFilm: Film = {...newFilm };
-  
-  
+
+
+  const addedFilm: Film = { ...newFilm };
+
+
 
   films.push(addedFilm);
 
   return res.json(addedFilm);
 
 });
+
+router.delete(":id", (req, res) => {
+  const id = Number(req.params.id);
+  console.log("delete", id);
+
+  const index = films.findIndex((film) => film.id === id);
+  if (index === -1) {
+    return res.sendStatus(404);
+  }
+  const deletedElements = films.splice(index, 1); 
+  return res.json(deletedElements[0]);
+});
+
 
 export default router;

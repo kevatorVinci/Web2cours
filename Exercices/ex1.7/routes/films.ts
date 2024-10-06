@@ -1,53 +1,112 @@
 import { Router } from "express";
-import { Film } from "../types";
+import path from "node:path";
+import { Film, NewFilm } from "../types";
+import { parse, serialize } from "../utils/json";
+const jsonDbPath = path.join(__dirname, "/../data/drinks.json");
 
-const films: Film[] = [
+
+const router = Router();
+
+const defaultFilms: Film[] = [
   {
     id: 1,
-    title: "Inception",
-    director: "Christopher Nolan",
-    duration: 148,
+    title: "Shang-Chi and the Legend of the Ten Rings",
+    director: "Destin Daniel Cretton",
+    duration: 132,
+    imageUrl:
+      "https://upload.wikimedia.org/wikipedia/en/7/74/Shang-Chi_and_the_Legend_of_the_Ten_Rings_poster.jpeg",
+    description:
+      "Shang-Chi, the master of unarmed weaponry-based Kung Fu, is forced to confront his past after being drawn into the Ten Rings organization.",
+    budget: 150,
   },
   {
     id: 2,
-    title: "Interstellar",
-    director: "Christopher Nolan",
-    duration: 169,
+    title: "The Matrix",
+    director: "Lana Wachowski, Lilly Wachowski",
+    duration: 136,
+    imageUrl:
+      "https://upload.wikimedia.org/wikipedia/en/c/c1/The_Matrix_Poster.jpg",
+    description:
+      "A computer hacker learns from mysterious rebels about the true nature of his reality and his role in the war against its controllers.",
+    budget: 63,
   },
   {
     id: 3,
-    title: "The Dark Knight",
-    director: "Christopher Nolan",
-    duration: 152,
+    title: "Summer Wars",
+    director: "Mamoru Hosoda",
+    duration: 114,
+    imageUrl:
+      "https://upload.wikimedia.org/wikipedia/en/7/7d/Summer_Wars_poster.jpg",
+    description:
+      "A young math genius solves a complex equation and inadvertently puts a virtual world's artificial intelligence in a position to destroy Earth.",
+    budget: 18.7,
+  },
+  {
+    id: 4,
+    title: "The Meyerowitz Stories",
+    director: "Noah Baumbach",
+    duration: 112,
+    imageUrl:
+      "https://upload.wikimedia.org/wikipedia/en/a/af/The_Meyerowitz_Stories.png",
+    description:
+      "An estranged family gathers together in New York City for an event celebrating the artistic work of their father.",
+  },
+  {
+    id: 5,
+    title: "her",
+    director: "Spike Jonze",
+    duration: 126,
+    imageUrl:
+      "https://upload.wikimedia.org/wikipedia/en/4/44/Her2013Poster.jpg",
+    description:
+      "In a near future, a lonely writer develops an unlikely relationship with an operating system designed to meet his every need.",
+    budget: 23,
   },
 ];
-const router = Router();
 
+
+// Read all films, filtered by minimum-duration if the query param exists
+router.get("/", (req, res) => {
+  const films=parse(jsonDbPath,defaultFilms);
+  if (req.query["minimum-duration"] === undefined) {
+    return res.send(films);
+  }
+
+  const minDuration = Number(req.query["minimum-duration"]);
+ 
+  if (isNaN(minDuration) || minDuration <= 0) {
+    return res.sendStatus(400);
+  }
+
+  const filteredFilms = defaultFilms.filter((film) => film.duration >= minDuration);
+
+  return res.send(filteredFilms);
+});
+
+// Read a film by id
 router.get("/:id", (req, res) => {
   const id = Number(req.params.id);
+  const films= parse(jsonDbPath,defaultFilms);
   const film = films.find((film) => film.id === id);
-  if (!film) {
+
+
+  if (isNaN(id)) {
+    return res.sendStatus(400);
+  }
+
+ 
+
+  if (film === undefined) {
     return res.sendStatus(404);
   }
-  return res.json(film);
+
+  return res.send(film);
 });
 
-router.get("/", (req, res) => {
-  if (!req.query["minimum-duration"]) {
-    // Cannot call req.query.budget-max as "-" is an operator
-    return res.json(films);
-  }
-  const budgetMin = Number(req.query["minimum-duration"]);
-  const filteredFilm = films.filter((film) => {
-    return film.duration >= budgetMin;
-  });
-  return res.json(filteredFilm);
-});
-
-router.post("/create", (req, res) => {
-
-
+// Create a new film
+router.post("/", (req, res) => {
   const body: unknown = req.body;
+
   if (
     !body ||
     typeof body !== "object" ||
@@ -70,16 +129,13 @@ router.post("/create", (req, res) => {
     return res.sendStatus(400);
   }
 
+  // Challenge of ex1.4 : To be complete, we should check that the keys of the body object are only the ones we expect
+  
+  // End of challenge
 
-  const newFilm = body as Film;
+  const newFilm = body as NewFilm;
 
-
-
-
-
-
-
-  const existingFilm = films.find(
+  const existingFilm = defaultFilms.find(
     (film) =>
       film.title.toLowerCase() === newFilm.title.toLowerCase() &&
       film.director.toLowerCase() === newFilm.director.toLowerCase()
@@ -87,66 +143,90 @@ router.post("/create", (req, res) => {
 
   if (existingFilm) {
     return res.sendStatus(409);
-
-
   }
-  const nextIde = films.reduce((acc, films) => (films.id > acc ? films.id : acc), 0) + 1;
 
-  newFilm.id = nextIde;
+  const nextId =
+    defaultFilms.reduce((acc, film) => (film.id > acc ? film.id : acc), 0) + 1;
 
+  const addedFilm: Film = { id: nextId, ...newFilm };
 
+  defaultFilms.push(addedFilm);
 
-
-  const addedFilm: Film = { ...newFilm };
-
-
-
-  films.push(addedFilm);
+  serialize(jsonDbPath,defaultFilms);
 
   return res.json(addedFilm);
-
 });
 
-router.delete(":id", (req, res) => {
+// Delete a film by id
+router.delete("/:id", (req, res) => {
   const id = Number(req.params.id);
-  console.log("delete", id);
 
-  const index = films.findIndex((film) => film.id === id);
+  if (isNaN(id)) {
+    return res.sendStatus(400);
+  }
+
+  const index = defaultFilms.findIndex((film) => film.id === id);
+
   if (index === -1) {
     return res.sendStatus(404);
   }
-  const deletedElements = films.splice(index, 1); 
-  return res.json(deletedElements[0]);
+
+  const deletedFilm = defaultFilms[index];
+
+  defaultFilms.splice(index, 1);
+
+  serialize(jsonDbPath,defaultFilms);
+
+  return res.send(deletedFilm);
 });
 
+// Update on or multiple props of a film
 router.patch("/:id", (req, res) => {
   const id = Number(req.params.id);
-  const film = films.find((drink) => drink.id === id);
-  if (!film) {
+
+  if (isNaN(id)) {
+    return res.sendStatus(400);
+  }
+
+  const filmToUpdate = defaultFilms.find((film) => film.id === id);
+
+  if (filmToUpdate === undefined) {
     return res.sendStatus(404);
   }
 
   const body: unknown = req.body;
 
- if (
-     !body ||
-     typeof body !== "object" ||
-     ("title" in body && (typeof body.title !== "string" || !body.title.trim())) ||
-     ("director" in body && (typeof body.director !== "string" || !body.director.trim())) ||
-     ("duration" in body && (typeof body.duration !== "number" || body.duration <= 0))
- ) {
-     return res.sendStatus(400);
- }
-const updatedFilm = { ...film, ...body };
+  if (
+    !body ||
+    typeof body !== "object" ||
+    Object.keys(body).length === 0 ||
+    ("title" in body &&
+      (typeof body.title !== "string" || !body.title.trim())) ||
+    ("director" in body &&
+      (typeof body.director !== "string" || !body.director.trim())) ||
+    ("duration" in body &&
+      (typeof body.duration !== "number" || body.duration <= 0)) ||
+    ("budget" in body &&
+      (typeof body.budget !== "number" || body.budget <= 0)) ||
+    ("description" in body &&
+      (typeof body.description !== "string" || !body.description.trim())) ||
+    ("imageUrl" in body &&
+      (typeof body.imageUrl !== "string" || !body.imageUrl.trim()))
+  ) {
+    return res.sendStatus(400);
+  }
 
 
-  films[films.indexOf(updatedFilm)] = updatedFilm;
+  // End of challenge
+
+  const updatedFilm = { ...filmToUpdate, ...body };
+
+  defaultFilms[defaultFilms.indexOf(filmToUpdate)] = updatedFilm;
 
   return res.send(updatedFilm);
-
-
 });
 
+// Update a film only if all properties are given or create it if it does not exist and the id is not existant
 router.put("/:id", (req, res) => {
   const body: unknown = req.body;
 
@@ -172,7 +252,7 @@ router.put("/:id", (req, res) => {
     return res.sendStatus(400);
   }
 
-  
+
 
   const id = Number(req.params.id);
 
@@ -180,31 +260,30 @@ router.put("/:id", (req, res) => {
     return res.sendStatus(400);
   }
 
-  const indexOfFilmToUpdate = films.findIndex((film) => film.id === id);
-  
+  const indexOfFilmToUpdate = defaultFilms.findIndex((film) => film.id === id);
+  // Deal with the film creation if it does not exist
   if (indexOfFilmToUpdate < 0) {
-    const newFilm =body as Film;
+    const newFilm = body as NewFilm;
 
-    
-   
-  
 
-    const nextId = films.reduce((acc, film) => (film.id > acc ? film.id : acc), 0) + 1;
+    const nextId =
+      defaultFilms.reduce((acc, film) => (film.id > acc ? film.id : acc), 0) + 1;
 
     const addedFilm = { id: nextId, ...newFilm };
 
-    films.push(addedFilm);
+    defaultFilms.push(addedFilm);
 
     return res.json(addedFilm);
   }
 
- 
-  const updatedFilm = { ...films[indexOfFilmToUpdate], ...body } as Film;
+  // Update the film
+  const updatedFilm = { ...defaultFilms[indexOfFilmToUpdate], ...body } as Film;
 
-  films[indexOfFilmToUpdate] = updatedFilm;
+  defaultFilms[indexOfFilmToUpdate] = updatedFilm;
+
+  serialize(jsonDbPath,defaultFilms);
 
   return res.send(updatedFilm);
 });
-
 
 export default router;

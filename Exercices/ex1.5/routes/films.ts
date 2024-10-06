@@ -48,21 +48,62 @@ router.post("/create", (req, res) => {
   
   
   const body: unknown = req.body;
+  if (
+    !body ||
+    typeof body !== "object" ||
+    !("title" in body) ||
+    !("director" in body) ||
+    !("duration" in body) ||
+    typeof body.title !== "string" ||
+    typeof body.director !== "string" ||
+    typeof body.duration !== "number" ||
+    !body.title.trim() ||
+    !body.director.trim() ||
+    body.duration <= 0 ||
+    ("budget" in body &&
+      (typeof body.budget !== "number" || body.budget <= 0)) ||
+    ("description" in body &&
+      (typeof body.description !== "string" || !body.description.trim())) ||
+    ("imageUrl" in body &&
+      (typeof body.imageUrl !== "string" || !body.imageUrl.trim()))
+  ) {
+    return res.sendStatus(400);
+  }
  
+
+  const newFilm= body as Film;
+  
+
+
+  
+
  
+  
+  const existingFilm = films.find(
+    (film) =>
+      film.title.toLowerCase() === newFilm.title.toLowerCase() &&
+      film.director.toLowerCase() === newFilm.director.toLowerCase()
+  );
 
-  const { title,director,duration } = body as Film;
+  if (existingFilm) {
+    return res.sendStatus(409);
 
-  const nextId =films.reduce((maxId,films) => (films.id>maxId ? films.id : maxId),0) +1;
+   
+  }
+   const nextIde =films.reduce((acc, films) => (films.id > acc ? films.id : acc), 0) + 1;
 
-  const NewFilm:Film ={
-    id: nextId,
-    title,
-    director,
-    duration,
-  };
-  films.push(NewFilm);
-  return res.json(NewFilm);
+newFilm.id = nextIde;
+
+console.log(nextIde);
+
+
+  const addedFilm: Film = {...newFilm };
+  
+  
+
+  films.push(addedFilm);
+
+  return res.json(addedFilm);
 
 });
 

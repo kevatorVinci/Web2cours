@@ -15,10 +15,14 @@ GET {{baseUrl}}/films/?minimum-duration=150
 ### create
 POST {{baseUrl}}/films/create
 Content-Type: application/json
+
 {
-        "title": "testKev",
-        "director": "Christopher Nolan",
-        "duration": 152
+       
+        "title": "testKeterv",
+        "director": "Christrettopher Nolan",
+        "duration": 152,
+        "budget":1222
+        
 }
 
 

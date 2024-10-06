@@ -28,8 +28,14 @@ Content-Type: application/json
 
 
 ### Delete a drink
-DELETE {{baseUrl}}/films/2
+DELETE {{baseUrl}}/films/2 
 
 
+### Update film with ID == 2
+PATCH {{baseUrl}}/films/2
+Content-Type: application/json
 
-
+{
+    "title":"Star Wars: Episode II – Attack of the Clones",
+    "budget": 115
+}

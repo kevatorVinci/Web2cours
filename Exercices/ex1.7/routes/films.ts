@@ -2,7 +2,7 @@ import { Router } from "express";
 import path from "node:path";
 import { Film, NewFilm } from "../types";
 import { parse, serialize } from "../utils/json";
-const jsonDbPath = path.join(__dirname, "/../data/drinks.json");
+const jsonDbPath = path.join(__dirname, "/../data/films.json");
 
 
 const router = Router();

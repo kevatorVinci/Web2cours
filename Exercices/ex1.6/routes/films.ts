@@ -183,7 +183,7 @@ router.put("/:id", (req, res) => {
   const indexOfFilmToUpdate = films.findIndex((film) => film.id === id);
   
   if (indexOfFilmToUpdate < 0) {
-    const newFilm = body as Film;
+    const newFilm =body as Film;
 
     
    

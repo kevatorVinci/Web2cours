@@ -1,35 +1,53 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import "./App.css";
+import sound from "./assets/sounds/Infecticide-11-Pizza-Spinoza.mp3";
+import logo from "./assets/img/js-logo.png";
+
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div className="page">
+      <Header></Header>
+      <Main />
+      <Footer />
+    </div>
+  );
 }
 
-export default App
+const Header = () => {
+  return (
+    <header>
+      <h1 className="animate__animated animate__bounce">We love Pizza</h1>
+    </header>
+  );
+};
+
+const Main = () => {
+  return (
+    <main>
+      <p>My HomePage</p>
+      <p>
+        Because we love JS, you can also click on the header to stop / start the
+        music ; )
+      </p>
+      <audio id="audioPlayer" controls autoPlay>
+        <source src={sound} type="audio/mpeg" />
+        Your browser does not support the audio element.
+      </audio>
+    </main>
+  );
+};
+
+const Footer = () => {
+  return (
+    <footer>
+      <h1 className="animate__animated animate__bounce animate__delay-2s">
+        But we also love JS
+      </h1>
+      <img src={logo} alt="" />
+    </footer>
+  );
+};
+
+export default App;
+
+

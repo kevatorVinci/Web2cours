@@ -1,6 +1,7 @@
 import path from "node:path";
 import { Film, NewFilm } from "../types";
 import { parse, serialize } from "../utils/json";
+import router from "../routes/films";
 const jsonDbPath = path.join(__dirname, "/../data/films.json");
 
 
@@ -95,10 +96,23 @@ function createOneFilm(NewFilm:NewFilm):Film {
 }
 
 
+function deleteOneDrink(filmId: number): Film | undefined {
+    const films = parse(jsonDbPath, defaultFilms);
+    const index = films.findIndex((film) => film.id === filmId);
+    if (index === -1) {
+      return undefined;
+    }
+  
+    const deletedElements = films.splice(index, 1);
+    serialize(jsonDbPath, films);
+    return deletedElements[0];
+  }
+
 
 
 export{
     readAllFilms,
     readOneFilms,
-    createOneFilm
-}
+    createOneFilm,
+    deleteOneDrink
+};

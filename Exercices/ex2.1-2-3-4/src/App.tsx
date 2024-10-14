@@ -15,33 +15,51 @@ const App = () => {
 
   return (
     <div>
-      <h1>PageTitle title={pageTitle}</h1>
+      <PageTitle title={pageTitle} />
 
-      <div>
-        <PageTitle title={pageTitle} />
-        
-        <Cinema
-          name={cinema1Name}
-          cinema1Movie1Title={cinema1Movie1Title}
-          cinema1Movie1Director={cinema1Movie1Director}  {/* Corrected here */}
-          cinema1Movie2Title={cinema1Movie2Title}
-          cinema1Movie2Director={cinema1Movie2Director}
-        />
+      <Cinema
+        name={cinema1Name}
+        movie1Title={cinema1Movie1Title}
+        movie1Director={cinema1Movie1Director}
+        movie2Title={cinema1Movie2Title}
+        movie2Director={cinema1Movie2Director}
+      />
 
-        <Cinema
-          name={cinema2Name}
-          cinema2Movie1Title={cinema2Movie1Title}
-          cinema2Movie1Director={cinema2Movie1Director}
-          cinema2Movie2Title={cinema2Movie2Title}
-          cinema2Movie2Director={cinema2Movie2Director}
-        />
-        <strong>{cinema1Movie1Title}</strong> - Réalisateur :{" "}
-        {cinema1Movie1Director}
-        <strong>{cinema1Movie2Title}</strong> - Réalisateur :{" "}
-        {cinema1Movie2Director}
-      </div>
+      <Cinema
+        name={cinema2Name}
+        movie1Title={cinema2Movie1Title}
+        movie1Director={cinema2Movie1Director}
+        movie2Title={cinema2Movie2Title}
+        movie2Director={cinema2Movie2Director}
+      />
     </div>
   );
 };
+
+const PageTitle = (props: { title: string }) => {
+  return <h1>{props.title}</h1>;
+};
+
+const Cinema = (props: {
+  name: string;
+  movie1Title: string;
+  movie1Director: string;
+  movie2Title: string;
+  movie2Director: string;
+}) => (
+  <div>
+    <h2>{props.name}</h2>
+    <ul>
+      <li>
+        <strong>{props.movie1Title}</strong> - Réalisateur :{" "}
+        {props.movie1Director}
+      </li>
+      <li>
+        <strong>{props.movie2Title}</strong> - Réalisateur :{" "}
+        {props.movie2Director}
+      </li>
+    </ul>
+  </div>
+);
 
 export default App;

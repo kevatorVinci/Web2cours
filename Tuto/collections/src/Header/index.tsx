@@ -1,5 +1,4 @@
-import pizzaBackground from "./assets/images/pizza.jpg";
-import "./App.css";
+import pizzaBackground from "../assets/img/pizza.jpg";
 import "./Header.css";
 
 

@@ -1,5 +1,6 @@
 import Cinema from "../Cinema";
 import PageTitle from "../PageTitle/PageTitle";  
+import Header from "../Header";
 
    
 const App = () => {

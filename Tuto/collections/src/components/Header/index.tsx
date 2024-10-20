@@ -1,5 +1,5 @@
-import pizzaBackground from "../assets/img/pizza.jpg";
-import "./Header.css";
+import pizzaBackground from "../../assets/img/pizza.jpg";
+import "./Header.css"
 
 
 interface HeaderProps {

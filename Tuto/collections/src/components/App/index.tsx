@@ -1,7 +1,7 @@
 import "./App.css";
-import Footer from "../Footer"; 
+import Footer from "../Footer";
 import Header from "../Header";
-import Main from "../Mains" 
+import Main from "../Mains";
 import DrinkCard from "../Mains/DrinkCard";
 import DrinkMenu from "../Mains/DrinkMenuProps";
 

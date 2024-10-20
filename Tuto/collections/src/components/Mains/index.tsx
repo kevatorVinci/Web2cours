@@ -1,4 +1,4 @@
-import sound from "../assets/sound/Infecticide-11-Pizza-Spinoza.mp3";
+import sound from "../../assets/sound/Infecticide-11-Pizza-Spinoza.mp3";
 import "./Main.css"
 import PizzaMenu from "./PizzaMenu";
 

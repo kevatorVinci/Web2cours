@@ -1,11 +1,12 @@
 import "./CategorieFilm.css"
 interface GenreProps{
-    genre:string;
+    genre:string[];
     children:React.ReactNode;
 }
 
 const Genre=(props:GenreProps) => {
-    <header className="genreHeader">{props.genre}</header>
+    return <header className="genreHeader">{props.genre}</header>
+    
 }
 
 export default Genre;

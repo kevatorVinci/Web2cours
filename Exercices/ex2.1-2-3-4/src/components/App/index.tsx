@@ -1,6 +1,7 @@
 import Cinema from "../Cinema";
 import PageTitle from "../PageTitle/PageTitle";  
 import Header from "../Header";
+import Footer from "../Footer";
 
    
 const App = () => {
@@ -50,11 +51,14 @@ const App = () => {
 
     return (
         <div>
+        <Header />
         <PageTitle title={pageTitle} />
 
-        <Cinema name={cinema1Name} movies={moviesCinema1} />
+        <Cinema name={cinema1Name} movies={moviesCinema1}  />
 
         <Cinema name={cinema2Name} movies={moviesCinema2} />
+        
+        <Footer lien="https://v5.voiranime.com/"   message="contact "  />
         </div>
     );
 };

@@ -1,23 +1,36 @@
 import pizzaBackground from "../../assets/img/pizza.jpg";
-import "./Header.css"
-
+import "./Header.css";
+import { useState } from "react";
 
 interface HeaderProps {
-    title: string;
-    version:number;
+  title: string;
+  version: number;
+}
+
+const Header = ({ title, version }: HeaderProps) => {
+  const [menuPrinted, setMenuPrinted] = useState(false);
+  
+  const handleClick = () => {
+    console.log(`value of menuPrinted before click: ${menuPrinted}`);
+    setMenuPrinted(!menuPrinted);
   }
 
-const Header = (props:HeaderProps): JSX.Element => {
-    return (
-      <div className="page" style={{ backgroundImage: `url(${pizzaBackground})` }}>
-      <header>
-        <h1 className="animate__animated animate__bounce">{props.title}</h1>
-        <h4>Version: {props.version}</h4>
+
+  return (
+    <div
+        className="page"
+      style={{ backgroundImage: `url(${pizzaBackground})` }}
+    >
+
+      
+      <header onClick={handleClick}>
+        <h1 className="animate__animated animate__bounce">
+          {menuPrinted ? `${title}... and rarely do we hate it!` : title}
+        </h1>
+        <h4>Version: {version}</h4>
       </header>
-      </div>
-    );
-  };
+    </div>
+  );
+};
 
-  export default  Header;
-
-  
+export default Header;

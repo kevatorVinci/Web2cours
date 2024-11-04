@@ -8,22 +8,32 @@ interface ClickCounterProps {
 const ClickCouter = ({ title, message }: ClickCounterProps) => {
   const [clickCount, setClickCount] = useState(0);
   const [showMessage, setShowMessage] = useState(false);
+  const [isButtonHovered, setIsButtonHovered] = useState(false);
 
- 
-  const handleMouseOk=()=>{
+  const handleMouseOk = () => {
     setShowMessage(true);
-    setTimeout(() => setShowMessage(false), 2000);
+
     console.log("Mouse over");
-  }
+  };
 
-  const handleMouseNull=()=>{
+  const handleMouseNull = () => {
     setShowMessage(false);
-    
-    console.log("Mouse out");
-  }
 
- 
-  
+    console.log("Mouse out");
+  };
+
+  const handleButtonOk = () => {
+    setIsButtonHovered(true);
+
+    console.log("Mouse over");
+  };
+
+  const handleButtonNull = () => {
+    setIsButtonHovered(false);
+
+    console.log("Mouse out");
+  };
+
   const handleclick = () => {
     setClickCount(clickCount + 1);
     console.log("Button clicked");
@@ -31,13 +41,18 @@ const ClickCouter = ({ title, message }: ClickCounterProps) => {
 
   return (
     <div>
-      <p>You have clicked {clickCount} times</p>
-        <div onMouseEnter={handleMouseOk} onMouseLeave={handleMouseNull}>
-             { showMessage && clickCount>=10 && <h2>{message}</h2>}
-      <button  onClick={handleclick}  >{title}</button>
-       
-        </div>
-   
+      <div onMouseEnter={handleMouseOk} onMouseLeave={handleMouseNull}>
+        {showMessage && clickCount >= 10 && <h2>{message}</h2>}
+        <button
+          onClick={handleclick}
+          onMouseEnter={handleButtonOk}
+          onMouseLeave={handleButtonNull}
+        >
+          {" "}
+          <p>You have clicked {clickCount} times</p>{" "}
+         
+        </button> {isButtonHovered && <p>{title}</p>}
+      </div>
     </div>
   );
 };

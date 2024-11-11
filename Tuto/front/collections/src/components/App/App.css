@@ -1,0 +1,15 @@
+div#root {
+  height: 100%;
+  display: inline-block; /* avoid margins to collapse to avoid vertical scrollbar */
+  width: 100%;
+}
+
+
+
+
+main {
+  text-align: center;
+  /*to easily deal with sticky footer:
+   grow the main to fill the space*/
+  flex: 1 0 auto;
+}

@@ -17,7 +17,7 @@ const FilmReturn = ({ films }: FilmProps) => {
             <p className="film-director">Directed by: {film.director}</p>
             <p className="film-description">{film.description}</p>
             <p className="film-description">{film.budget}</p>
-            <button>add me </button>
+          
           </div>
         </div>
       ))}

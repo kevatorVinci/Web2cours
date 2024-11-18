@@ -13,4 +13,9 @@ interface Movie {
   description?: string;
 }
 
-export type { Film,Movie } ;
+interface MoviesContext {
+  
+
+}
+
+export type { Film,Movie,MoviesContext }; ;

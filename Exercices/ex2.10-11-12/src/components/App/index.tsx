@@ -2,8 +2,11 @@ import "./App.css";
 import ListeFilm from "../Film/index";
 import Footer from "../Footer/index";
 import Header from "../Header/index";
-import HomePage from "../Imovie/index";
+import HomePage from "../Home/index";
 import Cinema from "../Cinema";
+
+import NavBar from "../Nav";
+import {Outlet} from "react-router-dom";
 
 const HomePageConst = () => {
   return (
@@ -16,10 +19,18 @@ const HomePageConst = () => {
 const ListeFilmConst = () => {
   return (
     <div>
+     
       <ListeFilm />
     </div>
   );
 };
+
+
+
+
+  
+
+
 
 const CinemaConst = () => {
   const cinema1Name = "UGC De Brouckère";
@@ -94,6 +105,8 @@ function App() {
     <>
       <div>
         <Header />
+        <NavBar />
+        <Outlet />
         <Footer lien="ok" message="footer" />
       </div>
     </>

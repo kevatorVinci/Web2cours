@@ -1,6 +1,6 @@
 import { Movie } from "../../type";
-import MovieItem from "../Movie";
-import './cinema.css';
+import CinemaItem from "../CinemaItem";
+import '../CSS/cinemaPage.css';
 
 interface CinemaProps {
   name: string;
@@ -13,7 +13,7 @@ const Cinema = ({ name, movies }: CinemaProps) => (
     <div>
       {movies.map((movie, index) => (
         <div key={index} className="movie-item">
-          <MovieItem movie={movie} />
+          <CinemaItem movie={movie} />
         </div>
       ))}
     </div>

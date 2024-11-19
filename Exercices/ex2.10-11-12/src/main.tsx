@@ -1,8 +1,13 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import './index.css'
-import App ,{HomePageConst,ListeFilmConst,CinemaConst}from '../src/components/App/index'
+import App from "./components/App";
+import HomePageConst from "./components/Pages/homePage";
+import CinemaPage from "./components/Pages/cinemaPage";
+import MoviePage from "./components/Pages/moviePage";
+
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import AddMoviePage from "./components/Pages/addMoviePages";
 
 
 const router = createBrowserRouter([
@@ -15,13 +20,17 @@ const router = createBrowserRouter([
         element: <HomePageConst />,
       },
       {
-        path: "movie-list",
-        element: <ListeFilmConst />,
+        path: "cinema",
+        element: <CinemaPage />,
       },
       {
-        path: "Cinema",
-        element: <CinemaConst />,
+        path: "movie-list",
+        element: <MoviePage />,
       },
+      {
+        path: "add-movie",
+        element: <AddMoviePage />,
+      }
      
     ],
   },

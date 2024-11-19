@@ -1,112 +1,91 @@
 import "./App.css";
-import ListeFilm from "../Film/index";
+
 import Footer from "../Footer/index";
 import Header from "../Header/index";
-import HomePage from "../Home/index";
-import Cinema from "../Cinema";
+
 
 import NavBar from "../Nav";
 import {Outlet} from "react-router-dom";
+import { useState } from "react";
+import { Movie, MoviesContext } from "../../type";
+const defaultMovies: Movie[] = [
+  {
+    id: 1,
+    title: "Shang-Chi and the Legend of the Ten Rings",
+    director: "Destin Daniel Cretton",
+    duration: 132,
+    imageUrl:
+      "https://upload.wikimedia.org/wikipedia/en/7/74/Shang-Chi_and_the_Legend_of_the_Ten_Rings_poster.jpeg",
+    description:
+      "Shang-Chi, the master of unarmed weaponry-based Kung Fu, is forced to confront his past after being drawn into the Ten Rings organization.",
+    budget: 150,
+  },
+  {
+    id: 2,
+    title: "The Matrix",
+    director: "Lana Wachowski, Lilly Wachowski",
+    duration: 136,
+    imageUrl:
+      "https://upload.wikimedia.org/wikipedia/en/c/c1/The_Matrix_Poster.jpg",
+    description:
+      "A computer hacker learns from mysterious rebels about the true nature of his reality and his role in the war against its controllers.",
+    budget: 63,
+  },
+  {
+    id: 3,
+    title: "Summer Wars",
+    director: "Mamoru Hosoda",
+    duration: 114,
+    imageUrl:
+      "https://upload.wikimedia.org/wikipedia/en/7/7d/Summer_Wars_poster.jpg",
+    description:
+      "A young math genius solves a complex equation and inadvertently puts a virtual world's artificial intelligence in a position to destroy Earth.",
+    budget: 18.7,
+  },
+  {
+    id: 4,
+    title: "The Meyerowitz Stories",
+    director: "Noah Baumbach",
+    duration: 112,
+    imageUrl:
+      "https://upload.wikimedia.org/wikipedia/en/a/af/The_Meyerowitz_Stories.png",
+    description:
+      "An estranged family gathers together in New York City for an event celebrating the artistic work of their father.",
+  },
+  {
+    id: 5,
+    title: "her",
+    director: "Spike Jonze",
+    duration: 126,
+    imageUrl:
+      "https://upload.wikimedia.org/wikipedia/en/4/44/Her2013Poster.jpg",
+    description:
+      "In a near future, a lonely writer develops an unlikely relationship with an operating system designed to meet his every need.",
+    budget: 23,
+  },
+];
 
-const HomePageConst = () => {
-  return (
-    <div>
-      <HomePage />
-    </div>
-  );
-};
-
-const ListeFilmConst = () => {
-  return (
-    <div>
-     
-      <ListeFilm />
-    </div>
-  );
-};
-
-
-
-
-  
-
-
-
-const CinemaConst = () => {
-  const cinema1Name = "UGC De Brouckère";
-
-  const moviesCinema1 = [
-    {
-      title: "HAIKYU-THE DUMPSTER BATTLE",
-      director: "Susumu Mitsunaka",
-      description:
-        "A high-energy sports anime movie focusing on the intense volleyball rivalry between Karasuno High and their fierce competitors.",
-    },
-    {
-      title: "GOODBYE JULIA",
-      director: "Mohamed Kordofani",
-      description:
-        "A poignant drama that explores themes of love, loss, and the complex dynamics of human relationships in a deeply emotional narrative.",
-    },
-    {
-      title: "INCEPTION",
-      director: "Christopher Nolan",
-      description:
-        "A mind-bending sci-fi thriller where a skilled thief, who enters people's dreams to steal secrets, is given a chance to have his criminal record erased if he can implant an idea into a target's subconscious.",
-    },
-    {
-      title: "PARASITE",
-      director: "Bong Joon-ho",
-      description:
-        "An Oscar-winning dark comedy thriller that examines class disparities through the story of two families — one wealthy, the other destitute — and their increasingly complicated relationship.",
-    },
-  ];
-
-  const cinema2Name = "UGC Toison d'Or";
-
-  const moviesCinema2 = [
-    {
-      title: "THE WATCHERS",
-      director: "Ishana Night Shyamalan",
-      description:
-        "A suspenseful thriller that follows a group of people who are under constant surveillance, leading them to uncover dark secrets about their observers and themselves.",
-    },
-    {
-      title: "BAD BOYS: RIDE OR DIE",
-      director: "Adil El Arbi, Bilall Fallah",
-      description:
-        "The latest installment in the action-packed Bad Boys franchise, featuring detectives Mike Lowrey and Marcus Burnett as they take on their most dangerous case yet.",
-    },
-    {
-      title: "TENET",
-      director: "Christopher Nolan",
-      description:
-        "A complex and visually stunning sci-fi action film where a protagonist embarks on a time-bending mission to prevent World War III, navigating through a world of temporal inversion.",
-    },
-    {
-      title: "THE IRISHMAN",
-      director: "Martin Scorsese",
-      description:
-        "An epic crime drama that chronicles the life of Frank Sheeran, a mob hitman, as he reflects on his involvement with the Bufalino crime family and the mysterious disappearance of his friend, Jimmy Hoffa.",
-    },
-  ];
-
-  return (
-    <div>
-      <Cinema name={cinema1Name} movies={moviesCinema1} />
-
-      <Cinema name={cinema2Name} movies={moviesCinema2} />
-    </div>
-  );
-};
 
 function App() {
+  const [movies, setMovies] = useState(defaultMovies);
+
+  const addMovie = (movie: Movie) => {
+    const newId = movies.reduce((maxId, movie) => Math.max(maxId, movie.id), 0) + 1;
+    const newMovie = { ...movie, id: newId };
+    setMovies([...movies, newMovie]);
+  };
+
+  const moviesContext : MoviesContext = {
+    addMovie,
+    movies,
+  }
+
   return (
     <>
       <div>
         <Header />
         <NavBar />
-        <Outlet />
+        <Outlet  context={moviesContext}/>
         <Footer lien="ok" message="footer" />
       </div>
     </>
@@ -114,4 +93,3 @@ function App() {
 }
 
 export default App;
-export { HomePageConst, ListeFilmConst, CinemaConst };

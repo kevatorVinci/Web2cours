@@ -9,6 +9,8 @@ const NavBar = () => {
       <button onClick={() => navigate("/")}>Home</button>
       <button onClick={() => navigate("/cinema")}> Cinema</button>
       <button onClick={() => navigate("/movie-list")}>ListeFilm</button>
+      <button onClick={()=>navigate("/add-movie") }> ajouter un film </button>
+
     </nav>
   );
 };

@@ -1,21 +1,18 @@
-interface Film {
+interface Movie {
   id: number;
   title: string;
   director: string;
-  duree: number;
-  image?: string;
+  duration: number;
+  imageUrl?: string;
   description?: string;
   budget?: number;
 }
-interface Movie {
-  title: string;
-  director: string;
-  description?: string;
-}
 
 interface MoviesContext {
+  addMovie: (movie:Movie)=>void;
+  movies:Movie[];
   
 
 }
 
-export type { Film,Movie,MoviesContext }; ;
+export type { Movie,MoviesContext  }; ;

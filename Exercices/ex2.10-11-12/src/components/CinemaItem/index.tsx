@@ -9,7 +9,7 @@ interface MoviesProps{
 const colors = ["white","red", "green", "blue", "yellow", "purple"];
  
   
-  const MovieItem = ({movie}:MoviesProps) => {
+  const CinemaItem = ({movie}:MoviesProps) => {
     const [descriptionVisible,setShowMessage] = useState(false);
     const [colorIndex, setColorIndex] = useState(0);
 
@@ -38,5 +38,5 @@ const colors = ["white","red", "green", "blue", "yellow", "purple"];
     );
   }    
 
-  export default MovieItem;
+  export default CinemaItem;
   

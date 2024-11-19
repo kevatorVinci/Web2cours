@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import './index.css'
+import "./index.css";
 import App from "./components/App";
 import HomePageConst from "./components/Pages/homePage";
 import CinemaPage from "./components/Pages/cinemaPage";
@@ -8,7 +8,6 @@ import MoviePage from "./components/Pages/moviePage";
 
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import AddMoviePage from "./components/Pages/addMoviePages";
-
 
 const router = createBrowserRouter([
   {
@@ -30,8 +29,7 @@ const router = createBrowserRouter([
       {
         path: "add-movie",
         element: <AddMoviePage />,
-      }
-     
+      },
     ],
   },
 ]);
@@ -41,4 +39,3 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
     <RouterProvider router={router} />
   </React.StrictMode>
 );
-

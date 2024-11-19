@@ -3,9 +3,8 @@ import "./App.css";
 import Footer from "../Footer/index";
 import Header from "../Header/index";
 
-
 import NavBar from "../Nav";
-import {Outlet} from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import { useState } from "react";
 import { Movie, MoviesContext } from "../../type";
 const defaultMovies: Movie[] = [
@@ -65,27 +64,27 @@ const defaultMovies: Movie[] = [
   },
 ];
 
-
 function App() {
   const [movies, setMovies] = useState(defaultMovies);
 
   const addMovie = (movie: Movie) => {
-    const newId = movies.reduce((maxId, movie) => Math.max(maxId, movie.id), 0) + 1;
+    const newId =
+      movies.reduce((maxId, movie) => Math.max(maxId, movie.id), 0) + 1;
     const newMovie = { ...movie, id: newId };
     setMovies([...movies, newMovie]);
   };
 
-  const moviesContext : MoviesContext = {
+  const moviesContext: MoviesContext = {
     addMovie,
     movies,
-  }
+  };
 
   return (
     <>
       <div>
         <Header />
         <NavBar />
-        <Outlet  context={moviesContext}/>
+        <Outlet context={moviesContext} />
         <Footer lien="ok" message="footer" />
       </div>
     </>

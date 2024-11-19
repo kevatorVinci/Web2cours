@@ -9,10 +9,8 @@ interface Movie {
 }
 
 interface MoviesContext {
-  addMovie: (movie:Movie)=>void;
-  movies:Movie[];
-  
-
+  addMovie: (movie: Movie) => void;
+  movies: Movie[];
 }
 
-export type { Movie,MoviesContext  }; ;
+export type { Movie, MoviesContext };

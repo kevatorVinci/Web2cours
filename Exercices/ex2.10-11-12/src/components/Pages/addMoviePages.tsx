@@ -4,17 +4,13 @@ import { useOutletContext } from "react-router-dom";
 import AddMovieForm from "../movieItem/addMovieFrom";
 
 const AddMoviePage = () => {
-  const { addMovie }: MoviesContext=useOutletContext();
+  const { addMovie }: MoviesContext = useOutletContext();
 
-
-return (
-<div>
-<AddMovieForm addMovie={addMovie} />
-</div>
-);
-
-}
-  
-
+  return (
+    <div>
+      <AddMovieForm addMovie={addMovie} />
+    </div>
+  );
+};
 
 export default AddMoviePage;

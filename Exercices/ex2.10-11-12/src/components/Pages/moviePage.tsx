@@ -1,4 +1,4 @@
-import MovieListItem from "../movieItem/movies";
+import MovieListItem from "../movieItem/moviesCard";
 import { MoviesContext } from "../../type";
 import { useOutletContext } from "react-router-dom";
 

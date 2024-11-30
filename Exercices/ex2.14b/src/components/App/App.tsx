@@ -1,20 +1,35 @@
-import  { useState } from 'react';
+import  { useEffect, useState } from 'react';
 import RamDog from '../ComponentsRamdomDog/ramdomDog';
 import './App.css';
 
 function App() {
   const [key, setKey] = useState(0);
+  const [isMouseOver, setIsMouseOver] = useState(false);
 
-  const refreshDogs = () => {
-    setKey(prevKey => prevKey + 1);
-  };
+
+ 
+
+  useEffect(() => {
+    if (!isMouseOver) {
+      const timer = setInterval(() => { setKey(prevKey => prevKey + 1); }, 5000);
+      return () => clearInterval(timer);
+    }
+  }, [isMouseOver]);
+
+const handleMouseEnter = () => {
+  setIsMouseOver(true);
+};
+
+const handleMouseLeave = () => {
+  setIsMouseOver(false);
+};
 
   return (
     <>
-      <button onClick={refreshDogs}>Refresh Dog Photos</button>
-      <RamDog key={`${key}-1`} />
-      <RamDog key={`${key}-2`} />
-      <RamDog key={`${key}-3`} />
+     
+     <RamDog key={`${key}-1`} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} />
+      <RamDog key={`${key}-2`} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} />
+      <RamDog key={`${key}-3`} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} />
     </>
   );
 }
